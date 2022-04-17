@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"runtime"
 	"sync"
 
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 
-	"github.com/gopherine/alien/Internal/world"
+	"github.com/gopherine/alien/internal/alien"
+	"github.com/gopherine/alien/internal/world"
 )
 
 var (
@@ -35,7 +35,6 @@ func init() {
 	flag.Parse()
 }
 func main() {
-	runtime.GOMAXPROCS(2)
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal().Msg("Error loading .env file")
@@ -43,7 +42,8 @@ func main() {
 
 	switch cmd {
 	case "generate":
-		world.Generate(numOfCities)
+		cities := world.Generate(numOfCities)
+		world.WriteToFile(cities)
 	case "start":
 		worldMap := world.LoadCities()
 		if numOfCities < 0 {
@@ -53,7 +53,8 @@ func main() {
 		var wg sync.WaitGroup
 		for i := 0; i < numOfAliens; i++ {
 			wg.Add(1)
-			go world.Invade(worldMap, fmt.Sprintf("alien-%d", i), numOfSteps, &wg)
+			a := alien.New(fmt.Sprintf("alien-%d", i))
+			go a.Invade(worldMap, numOfSteps, &wg)
 		}
 		wg.Wait()
 

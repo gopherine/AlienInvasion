@@ -1,20 +1,31 @@
-package world
+package alien
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
+	"time"
 
 	"github.com/rs/zerolog/log"
+	"golang.org/x/exp/maps"
 
-	"github.com/gopherine/alien/internal/world"
+	w "github.com/gopherine/alien/internal/world"
 	"github.com/gopherine/alien/util"
 )
 
 // for synchronizing individual city operations
+type Alien struct {
+	Name string
+}
+
 var mutex sync.Mutex
 
+func New(alienName string) *Alien {
+	return &Alien{alienName}
+}
+
 // Invade function invades cities with aliens
-func Invade(worldMap []*world.City, alienName string, steps int, wg *sync.WaitGroup) {
+func (a *Alien) Invade(worldMap []*w.City, steps int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	if steps <= 0 {
 		log.Error().Msg("Number of steps should be a positive integer greater then 0")
@@ -25,17 +36,17 @@ func Invade(worldMap []*world.City, alienName string, steps int, wg *sync.WaitGr
 	city := worldMap[util.RandomInt(len(worldMap))]
 	for i := 0; i < steps; i++ {
 		mutex.Lock()
-		city.EnterCity(alienName)
+		city.EnterCity(a.Name)
 		mutex.Unlock()
 
 		// notify if the alien is dead or trapped
 		if len(city.Roads) == 0 {
 			if city.Destroyed {
-				fmt.Printf("%s is Dead \n", alienName)
+				fmt.Printf("%s is Dead \n", a.Name)
 				return
 			}
 
-			fmt.Printf("%s is trapped \n", alienName)
+			fmt.Printf("%s is trapped \n", a.Name)
 			return
 		}
 
@@ -45,11 +56,21 @@ func Invade(worldMap []*world.City, alienName string, steps int, wg *sync.WaitGr
 
 		mutex.Lock()
 		if len(city.Roads) != 0 {
-			fmt.Printf("%s moved to city %s \n", alienName, city.Name)
-			city = city.Roads[util.MapRandomKeyGet(city.Roads)]
+			fmt.Printf("%s moved to city %s \n", a.Name, city.Name)
+			city = city.Roads[MapRandomKeyGet(city.Roads)]
 		}
 		mutex.Unlock()
 	}
 
 	return
+}
+
+// Helper func to get random map keys
+func MapRandomKeyGet(mapI map[string]*w.City) string {
+	if len(mapI) == 0 {
+		return ""
+	}
+	rand.Seed(time.Now().UnixNano())
+	keys := maps.Keys(mapI)
+	return keys[rand.Intn(len(keys))]
 }

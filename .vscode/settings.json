@@ -1,0 +1,20 @@
+{
+    "go.useLanguageServer": true,
+    "go.inferGopath": false,
+    "go.lintOnSave": "package",
+    "go.vetOnSave": "package",
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+      "--fast"
+    ],
+    "go.coverOnSave": false,
+    "go.useCodeSnippetsOnFunctionSuggest": true,
+  
+    "go.languageServerExperimentalFeatures": {
+      "diagnostics": true // for diagnostics as you type
+    },
+
+    "[yaml]": {
+      "editor.formatOnSave": false
+    }
+  }

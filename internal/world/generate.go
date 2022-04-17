@@ -14,7 +14,8 @@ import (
 func Generate(numOfCities int) []*City {
 	// number of cities cannot be less then or equal 0
 	if numOfCities <= 0 {
-		log.Fatal().Msg("Cannot generate a world please provide a positive integer greater then 0 to generate world")
+		log.Error().Msg("Cannot generate a world please provide a positive integer greater then 0 to generate world")
+		return nil
 	}
 
 	// Initialize list of city
@@ -24,7 +25,6 @@ func Generate(numOfCities int) []*City {
 	}
 
 	connectRoads(cities)
-	writeToFile(cities)
 	return cities
 }
 
@@ -85,7 +85,8 @@ func connectRoads(c []*City) []*City {
 }
 
 // WriteToFile writes list of cities to text file
-func writeToFile(c []*City) {
+func WriteToFile(c []*City) {
+	fmt.Println(os.Getenv("FILENAME"))
 	f, err := os.Create(os.Getenv("FILENAME"))
 	if err != nil {
 		log.Fatal().Msgf("failed creating file: %s", err)

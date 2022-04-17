@@ -10,15 +10,16 @@ import (
 
 type City struct {
 	//name of the city
-	Name string `csv:"name"`
-	//This map contains directions like north south east west as keys and the corresponding city as value
-	Roads map[string]*City `csv:"roads"`
+	Name string
+	//Roads map represents direction as key and the adjacent city as value
+	Roads map[string]*City
 	//number of aliens in the city
-	Invaders []string `csv:"invaders"`
-	//Keeps track of city status if destroyed or not
-	Destroyed bool `csv:"destroyed"`
+	Invaders []string
+	//Keeps track of city status if city is destroyed or not
+	Destroyed bool
 }
 
+// loads cities and connected roads from provider or generated file
 func LoadCities() []*City {
 	f, err := os.Open(os.Getenv("FILENAME"))
 	if err != nil {
@@ -52,6 +53,7 @@ func LoadCities() []*City {
 				nextCity = citiesMap[tuple[1]]
 			}
 
+			// road connections
 			switch tuple[0] {
 			case "north":
 				city.Roads["north"] = nextCity

@@ -7,7 +7,7 @@ import (
 func (c *City) EnterCity(alienName string) {
 	c.Invaders = append(c.Invaders, alienName)
 	if len(c.Invaders) >= 2 && !c.Destroyed {
-		c.DestroyCity()
+		c.destroyCity()
 		fmt.Printf("%s and %s destroyed city %s\n", c.Invaders[0], c.Invaders[1], c.Name)
 	}
 }
@@ -16,7 +16,7 @@ func (c *City) LeaveCity() {
 	c.Invaders = c.Invaders[1:]
 }
 
-func (c *City) DestroyCity() {
+func (c *City) destroyCity() {
 	// Disconnecting roads to stop any other alien entering this city
 	if c.Roads["north"] != nil {
 		delete(c.Roads["north"].Roads, "south")
