@@ -56,6 +56,8 @@ go build -o bin/alien-invasion ./cmd/main.go
 
 Usage
 ============== 
+Create .env file you can reference or use .env.example
+
 ```
 // Generate a new map
 bin/alien-invasion -cmd generate
