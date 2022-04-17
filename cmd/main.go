@@ -34,6 +34,7 @@ func init() {
 	flag.IntVar(&numOfSteps, "s", 10000, "enter number of steps each alien will travel")
 	flag.Parse()
 }
+
 func main() {
 	err := godotenv.Load()
 	if err != nil {

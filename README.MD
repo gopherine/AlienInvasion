@@ -20,8 +20,8 @@ You should create a program that reads in the world map, creates N aliens, and u
 User Story
 ============== 
 
-* Generate new map with randomly connected city
-    * The generate map should be a practical map
+* Generate new map as per above example each city is connected to randomly generated directions
+    * The generate map should be a practical map for example: all 4 directions can't have same city
 * Save the generated map to a textfile
 * Load any map from the textfile
     * Assuming the format of the map is in the format of above given example and is a practical map implementation
@@ -65,12 +65,9 @@ bin/alien-invasion
 ```
 
 When explicit flag values are not provided default values are used.
-default values are for the flag:
+
 ```
--cmd start
--a 2
--n 10
--s 10000
+bin/alien-invasion -cmd start -a 2 -n 10 -s 10000
 ```
 
 Program assumes that user can provide any practical number of steps, aliens or city within hardware limitation.
