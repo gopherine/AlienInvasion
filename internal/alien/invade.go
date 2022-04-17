@@ -24,7 +24,9 @@ func New(alienName string) *Alien {
 	return &Alien{alienName}
 }
 
-// Invade function invades cities with aliens
+// Invade function invades cities with aliens, it is a 3 step procedure where it
+// first enters the city, checks if the city has another invader if yes then destroys the city and kill aliens
+// finally leaves the city as long as alien is not dead
 func (a *Alien) Invade(worldMap []*w.City, steps int, wg *sync.WaitGroup) {
 	defer wg.Done()
 	if steps <= 0 {
@@ -51,10 +53,12 @@ func (a *Alien) Invade(worldMap []*w.City, steps int, wg *sync.WaitGroup) {
 		}
 
 		mutex.Lock()
+		// leave current city
 		city.LeaveCity()
 		mutex.Unlock()
 
 		mutex.Lock()
+		// check if road to another city exists and randomly move there
 		if len(city.Roads) != 0 {
 			fmt.Printf("%s moved to city %s \n", a.Name, city.Name)
 			city = city.Roads[MapRandomKeyGet(city.Roads)]
@@ -71,6 +75,7 @@ func MapRandomKeyGet(mapI map[string]*w.City) string {
 		return ""
 	}
 	rand.Seed(time.Now().UnixNano())
+	// Note: this is experimental underlying function is using generics
 	keys := maps.Keys(mapI)
 	return keys[rand.Intn(len(keys))]
 }

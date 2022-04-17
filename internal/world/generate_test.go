@@ -7,6 +7,7 @@ import (
 	"github.com/gopherine/alien/internal/world"
 )
 
+// TestGenerate func tests against given scenarios to check if a new map is properly generated or not
 func TestGenerate(t *testing.T) {
 	testArgs := []struct {
 		name      string
@@ -34,6 +35,7 @@ func TestGenerate(t *testing.T) {
 		t.Run(v.name, func(t *testing.T) {
 			cities := world.Generate(v.numOfCity)
 
+			// for checking negative integer
 			if math.Signbit(float64(v.numOfCity)) {
 				if len(cities) != 0 {
 					t.Errorf("Generate(%d) FAILED: expected %d got %d", v.numOfCity, 0, len(cities))

@@ -6,7 +6,8 @@ import (
 	"github.com/gopherine/alien/internal/world"
 )
 
-func TestEnterCity(t *testing.T) {
+// TestCity func tests city functions like entercity and leave city
+func TestCity(t *testing.T) {
 	var city1, city2 world.City
 
 	t.Run("City should be destroyed", func(t *testing.T) {
@@ -45,19 +46,21 @@ func TestEnterCity(t *testing.T) {
 			t.Logf("EnterCity(test2) PASSED")
 		}
 	})
-}
 
-func TestLeaveCity(t *testing.T) {
-	city := world.City{
-		Name:      "test",
-		Invaders:  []string{"test"},
-		Destroyed: false,
-	}
+	t.Run("Leaving City", func(t *testing.T) {
+		{
+			city := world.City{
+				Name:      "test",
+				Invaders:  []string{"test"},
+				Destroyed: false,
+			}
 
-	city.LeaveCity()
-	if len(city.Invaders) != 0 {
-		t.Errorf("LeaveCity() FAILED: invader unable to leave city")
-	} else {
-		t.Logf("LeaveCity() PASSED")
-	}
+			city.LeaveCity()
+			if len(city.Invaders) != 0 {
+				t.Errorf("LeaveCity() FAILED: invader unable to leave city")
+			} else {
+				t.Logf("LeaveCity() PASSED")
+			}
+		}
+	})
 }

@@ -1,0 +1,10 @@
+broken-morning south=little-fire east=ancient-bird 
+little-fire north=broken-morning east=cold-darkness 
+ancient-bird west=broken-morning north=fragrant-shadow 
+cold-darkness west=little-fire north=ancient-water 
+fragrant-shadow south=ancient-bird north=ancient-haze west=billowing-pine 
+ancient-water south=cold-darkness east=billowing-pond west=wild-grass 
+ancient-haze south=fragrant-shadow 
+billowing-pine east=fragrant-shadow 
+billowing-pond west=ancient-water 
+wild-grass east=ancient-water 

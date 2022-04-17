@@ -9,6 +9,7 @@ import (
 	"github.com/gopherine/alien/internal/world"
 )
 
+// Tests invade function currently testing for hardcoded values could be improved with different scenarios
 func TestInvade(t *testing.T) {
 	numOfAliens := 20
 	newMap := world.Generate(100)
